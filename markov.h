@@ -12,6 +12,8 @@
 #include <map>
 #include <vector>
 
+using namespace std;
+
 class Markov {
 public:
 	Markov();
@@ -23,14 +25,17 @@ public:
 	void input_seed();
 	void get_next_day();
 	void generate_string();
+	void generate_map(int order);
 
 private:
-	std::map<std::string, std::vector<int>> map;
+	map<string, vector<int>> string_map;
+	vector<map<string, vector<int>>> map_vector;
 	int order = 1;
 
-	string filepath = "Raw_Climate_Data.csv"
-	int date_col = 1;
-	int prec_col = 4;
+	vector<string> depths;
+
+	string filepath = "Raw_Climate_Data.csv";
+	int snow_col = 5;
 
 };
 

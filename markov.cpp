@@ -10,6 +10,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 
 using namespace std;
 
@@ -58,7 +59,47 @@ void Markov::run(){
 }
 
 void Markov::initialize(){
+	ifstream fin;
+	fin.open(filepath);
 
+	char delim = ',';
+	char temp_string[256];
+	string temp_val = "";
+	int row = 0;
+	int col = 0;
+	vector<vector<string>> rows;
+	vector<string> temp_column;
+
+	while (fin.getline(temp_string, (streamsize) 256)){
+		//create stringstream from read line
+		stringstream s_stream(temp_string);
+		//set columns to 0 since restarting the row
+		col = 0;
+		while(getline(s_stream, temp_val, delim)){
+			temp_column.push_back(temp_val);
+			col++;
+		}
+		rows.push_back(temp_column);
+		temp_column.clear();
+		row++;
+	}
+
+
+	int index = 0;
+	for(auto name : rows[0]){
+		if(name == "SNWD"){
+			snow_col = index;
+		}
+		index++;
+	}
+	string depth = "";
+	for(int i = 0; i < rows.size(); i++){
+		if(atoi(rows.at(i).at(snow_col).c_str()) > .5){
+			depth = "1";
+		}else depth = "0";
+		depths.push_back(depth);
+	}
+	generate_map(order);
 }
 
 void Markov::set_order(int order){
@@ -83,5 +124,9 @@ void Markov::get_next_day(){
 }
 
 void Markov::generate_string(){
+
+}
+
+void Markov::generate_map(int order){
 
 }
