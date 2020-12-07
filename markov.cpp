@@ -127,7 +127,7 @@ void Markov::set_order(int order){
 }
 
 void Markov::set_input_file(){
-
+	// TODO allow different data files
 }
 
 void Markov::input_seed(){
@@ -138,7 +138,16 @@ void Markov::input_seed(){
 	generate_map();
 }
 void Markov::get_stats(){
-
+	input_seed();
+	// TODO implement more output than 2, do it dynamically
+	int one = 0;
+	int zero = 0;
+	for(int i = 0; i < map_vector.at(order-1).at(seed).size(); i++){
+		if(map_vector.at(order-1).at(seed).at(i) == 1){
+			one++;
+		}else zero++;
+	}
+	cout<<"Probability of a snow day following this sequence of days: "<<(double) one /(one + zero)<<"%"<<endl;
 }
 
 void Markov::generate_string(int length){
